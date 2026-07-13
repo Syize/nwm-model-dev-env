@@ -1,0 +1,1 @@
+export MODULEPATH=/opt/local/apps/modulefiles${MODULEPATH:+:$MODULEPATH}

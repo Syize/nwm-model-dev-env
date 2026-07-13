@@ -111,6 +111,7 @@ RUN mkdir -p \
 COPY configs/bashrc.sh /home/${USERNAME}/.bashrc
 COPY configs/ssh/public_key /tmp/${USERNAME}_authorized_key
 COPY configs/ssh/start-sshd.sh /usr/local/bin/start-sshd.sh
+COPY configs/shell/modulepath.sh /etc/profile.d
 
 RUN printf '\n%s\n' \
     '# System environment for module, Intel oneAPI, and Spack.' \
@@ -119,7 +120,6 @@ RUN printf '\n%s\n' \
     'export SPACK_DISABLE_LOCAL_CONFIG=true' \
     'export PATH=/opt/spack/bin:/opt/local/apps/bin:$PATH' \
     'if [ -f /usr/share/lmod/lmod/init/bash ]; then source /usr/share/lmod/lmod/init/bash; fi' \
-    'if [ -f /opt/intel/oneapi/setvars.sh ]; then source /opt/intel/oneapi/setvars.sh >/dev/null 2>&1; fi' \
     'if [ -f /opt/spack/share/spack/setup-env.sh ]; then source /opt/spack/share/spack/setup-env.sh; fi' \
     >> /home/${USERNAME}/.bashrc \
     && chown "${USERNAME}:${USERNAME}" /home/${USERNAME}/.bashrc
