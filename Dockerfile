@@ -4,7 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG USERNAME=syize
 ARG USER_UID=1000
 ARG USER_GID=1000
-ARG SPACK_VERSION=v0.23.1
 ARG ONEAPI_COMPILER_VERSION=2023.2.4
 ARG ONEAPI_MPI_VERSION=2021.18
 
@@ -12,10 +11,7 @@ ENV TZ=Asia/Shanghai
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 ENV SHELL=/bin/bash
-ENV SPACK_ROOT=/opt/spack
-ENV SPACK_USER_CACHE_PATH=/opt/local/spack-cache
-ENV SPACK_DISABLE_LOCAL_CONFIG=true
-ENV PATH=/opt/spack/bin:/opt/local/apps/bin:${PATH}
+ENV PATH=/opt/local/apps/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https \
@@ -78,19 +74,12 @@ RUN mkdir -p /usr/share/keyrings \
         intel-oneapi-mpi-devel-${ONEAPI_MPI_VERSION} \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /tmp/spack-download /opt \
-    && wget --tries=5 --waitretry=5 --read-timeout=60 --timeout=60 \
-        -O /tmp/spack-download/spack.tar.gz \
-        "https://codeload.github.com/spack/spack/tar.gz/refs/tags/${SPACK_VERSION}" \
-    && tar -xzf /tmp/spack-download/spack.tar.gz -C /opt \
-    && mv "/opt/spack-${SPACK_VERSION#v}" "${SPACK_ROOT}" \
-    && rm -rf /tmp/spack-download
-
 RUN groupadd --gid "${USER_GID}" "${USERNAME}" \
     && useradd --uid "${USER_UID}" --gid "${USER_GID}" -m -s /bin/bash "${USERNAME}" \
     && usermod -aG sudo "${USERNAME}" \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USERNAME}" \
-    && chmod 0440 "/etc/sudoers.d/${USERNAME}"
+    && echo 'Defaults secure_path="/home/syize/.local/bin:/opt/local/apps/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"' > /etc/sudoers.d/secure-path \
+    && chmod 0440 "/etc/sudoers.d/${USERNAME}" /etc/sudoers.d/secure-path
 
 RUN mkdir -p \
     /var/run/sshd \
@@ -98,14 +87,10 @@ RUN mkdir -p \
     /home/${USERNAME}/.config \
     /home/${USERNAME}/.local \
     /opt/local/apps \
-    /opt/local/spack-store \
-    /opt/local/spack-cache \
     /workspace \
     && chown -R "${USERNAME}:${USERNAME}" \
         /home/${USERNAME} \
         /opt/local/apps \
-        /opt/local/spack-store \
-        /opt/local/spack-cache \
         /workspace
 
 COPY configs/bashrc.sh /home/${USERNAME}/.bashrc
@@ -114,13 +99,9 @@ COPY configs/ssh/start-sshd.sh /usr/local/bin/start-sshd.sh
 COPY configs/shell/modulepath.sh /etc/profile.d
 
 RUN printf '\n%s\n' \
-    '# System environment for module, Intel oneAPI, and Spack.' \
-    'export SPACK_ROOT=/opt/spack' \
-    'export SPACK_USER_CACHE_PATH=/opt/local/spack-cache' \
-    'export SPACK_DISABLE_LOCAL_CONFIG=true' \
-    'export PATH=/opt/spack/bin:/opt/local/apps/bin:$PATH' \
+    '# System environment for module and Intel oneAPI.' \
+    'export PATH=/opt/local/apps/bin:$PATH' \
     'if [ -f /usr/share/lmod/lmod/init/bash ]; then source /usr/share/lmod/lmod/init/bash; fi' \
-    'if [ -f /opt/spack/share/spack/setup-env.sh ]; then source /opt/spack/share/spack/setup-env.sh; fi' \
     >> /home/${USERNAME}/.bashrc \
     && chown "${USERNAME}:${USERNAME}" /home/${USERNAME}/.bashrc
 
@@ -146,11 +127,9 @@ RUN sed -ri 's/^#?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ss
     && sed -ri 's@^session\s+required\s+pam_loginuid.so@session optional pam_loginuid.so@' /etc/pam.d/sshd
 
 USER ${USERNAME}
-ENV PATH=/home/${USERNAME}/.local/bin:/opt/spack/bin:/opt/local/apps/bin:${PATH}
+ENV PATH=/home/${USERNAME}/.local/bin:/opt/local/apps/bin:${PATH}
 WORKDIR /workspace
 
-RUN python3 -m pip install --user --no-cache-dir --upgrade pip setuptools wheel
-
-VOLUME ["/home/syize/.config", "/home/syize/.local", "/home/syize/Apps", "/opt/local/apps", "/opt/local/spack-store", "/opt/local/spack-cache"]
+VOLUME ["/home/syize/.config", "/home/syize/.local", "/home/syize/Apps", "/opt/local/apps"]
 
 CMD ["/bin/bash"]

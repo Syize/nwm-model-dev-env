@@ -1,6 +1,6 @@
 # 数值模式开发容器环境
 
-这个目录用于构建和运行一个面向数值模式开发的 Docker 容器。当前环境基于 Ubuntu 22.04，预装了常用编译工具、OpenSSH、Intel oneAPI 编译器和 MPI、Spack、Lmod，以及 `syize` 用户的基础 shell 配置。
+这个目录用于构建和运行一个面向数值模式开发的 Docker 容器。当前环境基于 Ubuntu 22.04，预装了常用编译工具、OpenSSH、Intel oneAPI 编译器和 MPI、Lmod，以及 `syize` 用户的基础 shell 配置。
 
 ## 目录说明
 
@@ -30,19 +30,17 @@
 - `./mount/dot-local:/home/syize/.local`
 - `./mount/ssh-host-keys:/etc/ssh/keys`
 - `./mount/libraries/compiled:/opt/local/apps`
-- `./mount/libraries/spack:/opt/local/spack-store`
 - `../models:/home/syize/Apps`
 
 其中：
 
 - `mount/dot-config` 和 `mount/dot-local` 用于保留用户级配置和 Python `--user` 安装内容。
 - `mount/ssh-host-keys` 用于持久化 OpenSSH host keys。
-- `mount/libraries/compiled` 用于保存手动安装的第三方库。
-- `mount/libraries/spack` 用于保存 Spack 安装的软件栈。
+- `mount/libraries/compiled` 用于保存手动安装的第三方库和 modulefiles。
 
 ## 构建与启动
 
-首先将你要放到容器内的 SSH public key 内容放到 [configs/ssh/public_key](configs/ssh/public_key)中，并将要编译和使用的数值模式源码放在当前目录上层的`models`目录下。
+首先将你要放到容器内的 SSH public key 内容放到 [configs/ssh/public_key](configs/ssh/public_key) 中，并将要编译和使用的数值模式源码放在当前目录上层的 `models` 目录下。
 
 在当前目录下执行：
 
@@ -51,7 +49,7 @@
 ./run.sh
 ```
 
-等价的手动命令是(有可能需要 root 权限)：
+等价的手动命令是（有可能需要 root 权限）：
 
 ```bash
 docker build --network=host -t numerical-model-dev .
@@ -79,5 +77,5 @@ ssh -p 8022 syize@127.0.0.1
 ## 备注
 
 - oneAPI APT 源配置位于 [configs/apt/oneAPI.list](configs/apt/oneAPI.list)。
-- Spack 目前通过下载固定版本源码包的方式安装，而不是通过系统包管理器安装。
 - Python 包在镜像构建时以 `syize` 用户通过 `pip --user` 安装到 `~/.local`。
+- 当前容器配置不再包含 Spack 的安装、配置或挂载逻辑。

@@ -4,4 +4,3 @@
 - [dot-local](dot-local)：家目录`.local`目录。
 - [libraries](libraries)：用于第三方库的目录：
   - [libraries/compiled](libraries/compiled)：手动编译的第三方库
-  - [libraries/spack](libraries/spack)：由spack管理的第三方库

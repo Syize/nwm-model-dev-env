@@ -14,5 +14,4 @@ services:
       - ./mount/dot-local:/home/syize/.local
       - ./mount/ssh-host-keys:/etc/ssh/keys
       - ./mount/libraries/compiled:/opt/local/apps
-      - ./mount/libraries/spack:/opt/local/spack-store
       - ../models:/home/syize/Apps
