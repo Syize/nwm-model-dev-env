@@ -42,7 +42,7 @@
 
 ## 构建与启动
 
-将要编译和使用的数值模式源码放在当前目录上层的`models`目录下。
+首先将你要放到容器内的 SSH public key 内容放到 [configs/ssh/public_key](configs/ssh/public_key)中，并将要编译和使用的数值模式源码放在当前目录上层的`models`目录下。
 
 在当前目录下执行：
 
