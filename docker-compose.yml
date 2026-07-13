@@ -1,0 +1,18 @@
+services:
+  numerical-model-dev:
+    image: numerical-model-dev:latest
+    container_name: nwm-dev
+    user: root
+    command: ["/usr/local/bin/start-sshd.sh"]
+    restart: always
+    ipc: host
+    ports:
+      - "8022:22"
+    volumes:
+      - /home/syize/Documents/docker-share/ubuntu:/share
+      - ./mount/dot-config:/home/syize/.config
+      - ./mount/dot-local:/home/syize/.local
+      - ./mount/ssh-host-keys:/etc/ssh/keys
+      - ./mount/libraries/compiled:/opt/local/apps
+      - ./mount/libraries/spack:/opt/local/spack-store
+      - ../models:/home/syize/Apps
