@@ -6,6 +6,8 @@ whatis("Intel oneAPI MPI 2021.18")
 
 local root="/opt/intel/oneapi/mpi"
 
+depends_on("compiler/oneapi/2023.2.4")
+
 prepend_path("PKG_CONFIG_PATH",
     pathJoin(root, "2021.18/lib/pkgconfig"))
 

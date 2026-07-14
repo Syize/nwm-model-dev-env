@@ -1,4 +1,9 @@
-FROM ubuntu:22.04
+FROM ubuntu:26.04
+
+# Remove the pre-existing ubuntu user and group
+RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && \
+    userdel -r ubuntu || true && \
+    groupdel ubuntu || true
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG USERNAME=syize
@@ -33,7 +38,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfftw3-mpi-dev \
     libgdal-dev \
     libgeotiff-dev \
-    libgrib2c-dev \
+    # libgrib2c-dev \
     libjpeg-dev \
     libncarg-bin \
     libncarg-dev \
@@ -128,6 +133,9 @@ RUN sed -ri 's/^#?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ss
 
 USER ${USERNAME}
 ENV PATH=/home/${USERNAME}/.local/bin:/opt/local/apps/bin:${PATH}
+RUN mkdir -p /home/syize/Downloads \
+    /home/syize/Documents \
+    /home/syize/Temp
 WORKDIR /workspace
 
 VOLUME ["/home/syize/.config", "/home/syize/.local", "/home/syize/Apps", "/opt/local/apps"]
