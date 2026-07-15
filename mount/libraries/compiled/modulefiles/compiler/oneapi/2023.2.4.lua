@@ -40,17 +40,12 @@ prepend_path("LIBRARY_PATH",
     pathJoin(root,"compiler/2023.2.4/linux/compiler/lib/intel64_lin"))
 
 setenv("I_MPI_F90", "ifort")
-
 setenv("I_MPI_F77", "ifort")
-
 setenv("FC", "ifort")
-
+setenv("F77", "ifort")
 setenv("CC", "icx")
-
 setenv("CXX", "icpx")
-
 setenv("CPP", "icx -E")
-
 setenv("CXXCPP", "icpx -E")
 
 family("compiler")

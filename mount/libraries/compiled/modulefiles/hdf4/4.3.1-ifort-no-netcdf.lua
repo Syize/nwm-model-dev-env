@@ -17,8 +17,6 @@ prepend_path("PATH", pathJoin(root,"bin"))
 prepend_path("LD_LIBRARY_PATH", pathJoin(root,"lib"))
 prepend_path("LIBRARY_PATH", pathJoin(root,"lib"))
 prepend_path("CPATH", pathJoin(root, "include"))
-prepend_path("PKG_CONFIG_PATH", pathJoin(root, "lib/pkgconfig"))
-prepend_path("CMAKE_PREFIX_PATH", root)
 
 setenv("HDF4_ROOT", root)
 setenv("HDF4PATH", root)
