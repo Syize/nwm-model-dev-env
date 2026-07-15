@@ -1,0 +1,5 @@
+services:
+  numerical-model-dev:
+    volumes:
+      - '/home/syize/Documents/Python/wrfrun:/home/syize/Documents/wrfrun'
+      - '/home/syize/Documents/Fortran/numerical-models/simulations:/home/syize/Documents/simulations'

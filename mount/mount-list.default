@@ -1,0 +1,8 @@
+# Copy this file to "mount-list", and write additional mount point here.
+# One file or directory per line.
+# Each entry is mounted into /home/syize/Documents/<basename>.
+# Use absolute host paths. Blank lines and lines starting with # are ignored.
+#
+# Example:
+# /home/syize/Documents/Python/wrfrun
+# /home/syize/Documents/Fortran/models/arps-source-code
