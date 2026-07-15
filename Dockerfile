@@ -61,6 +61,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     vim \
     wget \
+    zip \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8
