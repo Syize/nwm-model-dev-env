@@ -4,7 +4,6 @@ services:
     container_name: nwm-dev
     user: root
     command: ["/usr/local/bin/start-sshd.sh"]
-    restart: always
     ipc: host
     ports:
       - "8022:22"
@@ -12,6 +11,7 @@ services:
       - /home/syize/Documents/docker-share/ubuntu:/share
       - ./mount/dot-config:/home/syize/.config
       - ./mount/dot-local:/home/syize/.local
+      - ./mount/dot-vscode-server:/home/syize/.vscode-server
       - ./mount/ssh-host-keys:/etc/ssh/keys
       - ./mount/libraries/compiled:/opt/local/apps
       - ../models:/home/syize/Apps
