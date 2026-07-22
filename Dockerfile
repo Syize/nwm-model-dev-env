@@ -19,6 +19,7 @@ ENV SHELL=/bin/bash
 ENV PATH=/opt/local/apps/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    meson \
     apt-transport-https \
     bash \
     build-essential \
