@@ -20,6 +20,9 @@ prepend_path("MANPATH",
 prepend_path("CPLUS_INCLUDE",
     pathJoin(root, "2021.18/include"))
 
+prepend_path("CPATH",
+    pathJoin(root, "2021.18/include"))
+
 prepend_path("CLASSPATH",
     pathJoin(root,"2021.18/share/java/mpi.jar"))
 

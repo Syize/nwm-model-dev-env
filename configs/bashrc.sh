@@ -125,3 +125,32 @@ alias proxy="export http_proxy=http://127.0.0.1:7890 && export https_proxy=http:
 alias noproxy="unset http_proxy && unset https_proxy"
 
 export PATH="$HOME/.local/bin":$PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/syize/.local/share/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/syize/.local/share/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/syize/.local/share/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/syize/.local/share/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/syize/.local/share/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/syize/.local/share/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<

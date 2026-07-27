@@ -102,6 +102,7 @@ RUN mkdir -p \
         /workspace
 
 COPY configs/bashrc.sh /home/${USERNAME}/.bashrc
+COPY configs/condarc.yaml /home/${USERNAME}/.condarc
 COPY configs/ssh/public_key /tmp/${USERNAME}_authorized_key
 COPY configs/ssh/start-sshd.sh /usr/local/bin/start-sshd.sh
 COPY configs/shell/modulepath.sh /etc/profile.d
