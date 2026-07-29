@@ -17,6 +17,6 @@ depends_on("netcdf4-fortran/4.6.3-ifort")
 depends_on("jasper/1.900.1-gnu")
 depends_on("eccodes/2.33.0-ifort")
 
-prepend_path("PATH", root)
+prepend_path("PATH", pathJoin(root, "bin"))
 
 family("arps")
