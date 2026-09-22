@@ -64,6 +64,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     unzip \
+    file \
+    openmpi-bin \
+    bison \
+    flex \
+    libnetcdff-dev \
+    libopenmpi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8

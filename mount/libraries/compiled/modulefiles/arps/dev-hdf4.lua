@@ -20,4 +20,7 @@ depends_on("eccodes/2.33.0-ifort")
 
 prepend_path("PATH", root)
 
+setenv("BZ2PATH", "/usr")
+setenv("BZ2LIBPATH", "/usr/lib/x86_64-linux-gnu")
+
 family("arps")
